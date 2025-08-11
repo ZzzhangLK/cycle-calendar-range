@@ -32,10 +32,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         token: {
           // 全局配置字体
           fontFamily: `'Noto Serif SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
-        },
-        components: {
-          Calendar: { itemActiveBg: '#f5f5f5' },
-        },
+        }
       }}
     >
       {children}
