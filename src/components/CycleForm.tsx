@@ -22,9 +22,8 @@ interface FormValues {
 /**
  * 周期设置表单组件。
  * 包含所有用户输入项，如工作天数、休息天数、开始日期以及高级选项中的通勤日设置。
- * @returns {JSX.Element} 渲染一个 Ant Design 表单。
  */
-const CycleForm = () => {
+const CycleForm = (): JSX.Element => {
   const {
     workDays,
     restDays,
@@ -41,9 +40,7 @@ const CycleForm = () => {
   const [form] = Form.useForm();
 
   /**
-   * 处理表单提交事件。
-   * 将表单中的值更新到全局状态存储中。
-   * @param {FormValues} values - 表单收集到的所有值。
+   * 处理表单提交事件, 将表单中的值更新到全局状态存储中。
    */
   const handleFormSubmit = (values: FormValues) => {
     setWorkDays(values.workDays);

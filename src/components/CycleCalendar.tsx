@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type JSX, useState } from 'react';
 import { Calendar, Button } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { Dayjs } from 'dayjs';
@@ -8,9 +8,8 @@ import { useDateStore } from '../store/dateStore';
 /**
  * 周期日历显示组件。
  * 负责渲染日历，并根据全局状态计算和高亮显示工作日、休息日和通勤日。
- * @returns {JSX.Element} 渲染一个包含自定义逻辑的 Ant Design 日历。
  */
-const CycleCalendar = () => {
+const CycleCalendar = (): JSX.Element => {
   const { workDays, restDays, startDate, showCommuteDays, commuteDays } =
     useDateStore();
 
@@ -18,10 +17,10 @@ const CycleCalendar = () => {
 
   /**
    * 根据给定的日期计算其在周期中的状态（如工作、休息、通勤）。
-   * @param {Dayjs} value - 需要计算状态的日期。
-   * @returns {{ type: string; content: string } | null} 返回一个包含类型和显示内容的对象，如果日期无效则返回 null。
    */
-  const getDayData = (value: Dayjs) => {
+  const getDayData = (
+    value: Dayjs,
+  ): { type: string; content: string } | null => {
     if (!startDate || workDays <= 0 || restDays <= 0) {
       return null;
     }
@@ -59,10 +58,8 @@ const CycleCalendar = () => {
 
   /**
    * 自定义渲染日历单元格的内容。
-   * @param {Dayjs} date - 当前单元格的日期。
-   * @returns {JSX.Element | null} 返回一个 div 元素用于在单元格右下角显示状态文字。
    */
-  const cellRender = (date: Dayjs) => {
+  const cellRender = (date: Dayjs): JSX.Element | null => {
     const dayData = getDayData(date);
     if (!dayData) return null;
 
@@ -89,6 +86,8 @@ const CycleCalendar = () => {
       <div className="calendar-container">
         <Calendar
           cellRender={cellRender}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
           cellClassName={(date) =>
             date.startOf('day').isSame(dayjs().startOf('day'))
               ? 'real-today'

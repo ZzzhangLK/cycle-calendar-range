@@ -18,7 +18,6 @@ interface DateStore {
 
 /**
  * 获取用户系统的初始主题偏好（亮色或暗色）。
- * @returns {'light' | 'dark'} 返回 'dark' 或 'light'。
  */
 const getInitialTheme = (): 'light' | 'dark' => {
   if (typeof window !== 'undefined' && window.matchMedia) {
