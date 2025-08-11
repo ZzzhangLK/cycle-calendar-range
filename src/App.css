@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+}
+
+/* Bottom-right Label Styles */
+.day-label {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 1;
+  z-index: 2;
+}
+
+.ant-picker-cell-content {
+  font-size: 16px;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* for circle shape */
+  height: 24px; /* for circle shape */
+  margin: auto; /* center the content */
+}
+
+.ant-picker-cell-today .ant-picker-cell-content {
+  border: 1px solid #1890ff;
+  border-radius: 50%;
+}
+
+/* Add background color using :has() */
+.ant-picker-cell-inner:has(.day-label.work-day) {
+  background-color: #e6f7ff;
+}
+
+.ant-picker-cell-inner:has(.day-label.rest-day) {
+  background-color: #f6ffed;
+}
+
+.calendar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.calendar-container {
+  flex-grow: 1;
+  max-width: 900px; /* Or adjust as needed */
+  margin: 0 16px;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .ant-picker-calendar-header {
+    flex-direction: column;
+  }
+
+  .ant-typography {
+    font-size: 22px !important;
+  }
+
+  .ant-picker-calendar-week-cell {
+    font-size: 12px;
+  }
+
+  .ant-picker-cell-inner {
+    padding: 2px 4px;
+  }
+}
