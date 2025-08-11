@@ -73,6 +73,9 @@ const CycleCalendar = () => {
       <div className="calendar-container">
         <Calendar
           cellRender={cellRender}
+          cellClassName={(date) =>
+            date.startOf('day').isSame(dayjs().startOf('day')) ? 'real-today' : ''
+          }
           value={calendarValue}
           onPanelChange={(date) => setCalendarValue(date)}
         />
