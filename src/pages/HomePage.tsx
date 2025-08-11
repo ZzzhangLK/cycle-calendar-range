@@ -6,6 +6,11 @@ import Footer from '../components/Footer';
 
 const { Title } = Typography;
 
+/**
+ * 首页组件。
+ * 作为应用的主页面，整合了标题、主题切换、介绍、表单、日历和页脚等所有子组件。
+ * @returns {JSX.Element} 渲染整个首页的布局和内容。
+ */
 const HomePage = () => {
   const { theme, toggleTheme } = useDateStore();
 

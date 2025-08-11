@@ -1,3 +1,8 @@
+/**
+ * 页面页脚组件。
+ * 显示版权信息和项目开源地址。
+ * @returns {JSX.Element} 渲染页脚。
+ */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
