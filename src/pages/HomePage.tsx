@@ -3,6 +3,7 @@ import { useDateStore } from '../store/dateStore';
 import CycleForm from '../components/CycleForm';
 import CycleCalendar from '../components/CycleCalendar';
 import Footer from '../components/Footer';
+import type { JSX } from 'react';
 
 const { Title } = Typography;
 
