@@ -10,6 +10,7 @@ import {
 } from 'antd';
 import type { Dayjs } from 'dayjs';
 import { useDateStore } from '../store/dateStore';
+import type { JSX } from 'react';
 
 interface FormValues {
   workDays: number;
@@ -85,7 +86,7 @@ const CycleForm = (): JSX.Element => {
           </Col>
           <Col xs={24} md={8}>
             <Form.Item
-              label="周期开始的日期"
+              label="周期开始日期"
               name="startDate"
               rules={[{ required: true, message: '请选择开始日期' }]}
             >
