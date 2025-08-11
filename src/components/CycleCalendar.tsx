@@ -6,13 +6,8 @@ import dayjs from 'dayjs';
 import { useDateStore } from '../store/dateStore';
 
 const CycleCalendar = () => {
-  const {
-    workDays,
-    restDays,
-    startDate,
-    showCommuteDays,
-    commuteDays,
-  } = useDateStore();
+  const { workDays, restDays, startDate, showCommuteDays, commuteDays } =
+    useDateStore();
 
   const [calendarValue, setCalendarValue] = useState(() => dayjs());
 
@@ -74,7 +69,9 @@ const CycleCalendar = () => {
         <Calendar
           cellRender={cellRender}
           cellClassName={(date) =>
-            date.startOf('day').isSame(dayjs().startOf('day')) ? 'real-today' : ''
+            date.startOf('day').isSame(dayjs().startOf('day'))
+              ? 'real-today'
+              : ''
           }
           value={calendarValue}
           onPanelChange={(date) => setCalendarValue(date)}

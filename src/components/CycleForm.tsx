@@ -1,4 +1,13 @@
-import { Form, InputNumber, DatePicker, Col, Row, Button, Collapse, Checkbox } from 'antd';
+import {
+  Form,
+  InputNumber,
+  DatePicker,
+  Col,
+  Row,
+  Button,
+  Collapse,
+  Checkbox,
+} from 'antd';
 import type { Dayjs } from 'dayjs';
 import { useDateStore } from '../store/dateStore';
 
@@ -40,7 +49,13 @@ const CycleForm = () => {
         form={form}
         layout="vertical"
         onFinish={handleFormSubmit}
-        initialValues={{ workDays, restDays, startDate, showCommuteDays, commuteDays }}
+        initialValues={{
+          workDays,
+          restDays,
+          startDate,
+          showCommuteDays,
+          commuteDays,
+        }}
       >
         <Row gutter={16} align="bottom">
           <Col xs={24} md={6}>
@@ -72,7 +87,11 @@ const CycleForm = () => {
           </Col>
           <Col xs={24} md={4}>
             <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: '100%' }}
+              >
                 确定
               </Button>
             </Form.Item>
@@ -105,7 +124,7 @@ const CycleForm = () => {
                             validator: (_, value) => {
                               if (value && value % 2 !== 0) {
                                 return Promise.reject(
-                                  new Error('通勤日必须为偶数')
+                                  new Error('通勤日必须为偶数'),
                                 );
                               }
                               return Promise.resolve();

@@ -11,9 +11,16 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+      <header
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
         <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
-          周期日历
+          周期日历 - 智能排班与轮班周期计算器
         </Title>
         <Switch
           checked={theme === 'dark'}
@@ -22,9 +29,16 @@ const HomePage = () => {
           unCheckedChildren="亮"
           style={{ position: 'absolute', right: 0 }}
         />
-      </div>
-      <CycleForm />
-      <CycleCalendar />
+      </header>
+      <p className="site-description">
+        周期日历是一款免费的在线工具，帮助您轻松计算和可视化您的工作与休息周期。
+        <br />
+        适用于各种轮班、排班制度，支持自定义上班天数、休息天数和通勤日。
+      </p>
+      <main>
+        <CycleForm />
+        <CycleCalendar />
+      </main>
       <Footer />
     </div>
   );

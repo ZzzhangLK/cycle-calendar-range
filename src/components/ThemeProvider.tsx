@@ -18,7 +18,10 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     <ConfigProvider
       locale={zhCN}
       theme={{
-        algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        algorithm:
+          currentTheme === 'dark'
+            ? theme.darkAlgorithm
+            : theme.defaultAlgorithm,
         token: {
           fontFamily: `'Noto Serif SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
         },
