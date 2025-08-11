@@ -21,7 +21,8 @@ const CycleCalendar = () => {
       return null;
     }
 
-    const totalDaysInCycle = workDays + restDays;
+    const actualCommuteDays = showCommuteDays ? commuteDays : 0;
+    const totalDaysInCycle = workDays + restDays + actualCommuteDays;
     const diff = value.startOf('day').diff(startDate.startOf('day'), 'day');
 
     if (diff < 0) {
@@ -29,19 +30,23 @@ const CycleCalendar = () => {
     }
 
     const dayInCycle = diff % totalDaysInCycle;
+    const halfCommuteDays = actualCommuteDays / 2;
 
-    if (dayInCycle < restDays) {
-      return { type: 'rest-day', content: '休' };
+    if (showCommuteDays) {
+      if (dayInCycle < halfCommuteDays) {
+        return { type: 'commute-day', content: '通' };
+      }
+      if (dayInCycle < halfCommuteDays + restDays) {
+        return { type: 'rest-day', content: '休' };
+      }
+      if (dayInCycle < halfCommuteDays + restDays + halfCommuteDays) {
+        return { type: 'commute-day', content: '通' };
+      }
+      return { type: 'work-day', content: '班' };
     } else {
-      if (showCommuteDays && commuteDays > 0) {
-        const workDayIndex = dayInCycle - restDays;
-        const halfCommuteDays = commuteDays / 2;
-        if (
-          workDayIndex < halfCommuteDays ||
-          workDayIndex >= workDays - halfCommuteDays
-        ) {
-          return { type: 'commute-day', content: '通' };
-        }
+      // Cycle starts with rest days
+      if (dayInCycle < restDays) {
+        return { type: 'rest-day', content: '休' };
       }
       return { type: 'work-day', content: '班' };
     }

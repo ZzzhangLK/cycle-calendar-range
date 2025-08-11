@@ -63,7 +63,7 @@ const CycleForm = () => {
           </Col>
           <Col xs={24} md={8}>
             <Form.Item
-              label="放假开始的日期"
+              label="周期开始的日期"
               name="startDate"
               rules={[{ required: true, message: '请选择开始日期' }]}
             >
