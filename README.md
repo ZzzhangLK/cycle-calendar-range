@@ -6,7 +6,7 @@
 
 **[➡️ 访问线上应用](https://cycle-calendar-range.vercel.app/)**
 
-![应用截图](https://github.com/ZzzhangLK/cycle-calendar-range/tree/main/src/assets/screenshot.png) <!-- TODO: Replace with a real screenshot -->
+![应用截图](https://cycle-calendar-range.vercel.app/screenshot.png) <!-- TODO: Replace with a real screenshot -->
 
 ## ✨ 功能特性
 
