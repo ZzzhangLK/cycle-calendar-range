@@ -4,6 +4,7 @@ import CycleForm from '../components/CycleForm';
 import CycleCalendar from '../components/CycleCalendar';
 import Footer from '../components/Footer';
 import type { JSX } from 'react';
+import StatsPanel from '../components/StatsPanel';
 
 const { Title } = Typography;
 
@@ -43,6 +44,7 @@ const HomePage = (): JSX.Element => {
       <main>
         <CycleForm />
         <CycleCalendar />
+        <StatsPanel />
       </main>
       <Footer />
     </div>

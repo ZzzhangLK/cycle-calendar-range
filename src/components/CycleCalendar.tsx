@@ -4,6 +4,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { useDateStore } from '../store/dateStore';
+import { getDayData } from '../utils/cycleCalculator';
 
 /**
  * 周期日历显示组件。
@@ -16,51 +17,16 @@ const CycleCalendar = (): JSX.Element => {
   const [calendarValue, setCalendarValue] = useState(() => dayjs());
 
   /**
-   * 根据给定的日期计算其在周期中的状态（如工作、休息、通勤）。
-   */
-  const getDayData = (
-    value: Dayjs,
-  ): { type: string; content: string } | null => {
-    if (!startDate || workDays <= 0 || restDays <= 0) {
-      return null;
-    }
-
-    const actualCommuteDays = showCommuteDays ? commuteDays : 0;
-    const totalDaysInCycle = workDays + restDays + actualCommuteDays;
-    const diff = value.startOf('day').diff(startDate.startOf('day'), 'day');
-
-    if (diff < 0) {
-      return null;
-    }
-
-    const dayInCycle = diff % totalDaysInCycle;
-    const halfCommuteDays = actualCommuteDays / 2;
-
-    if (showCommuteDays) {
-      if (dayInCycle < halfCommuteDays) {
-        return { type: 'commute-day', content: '通' };
-      }
-      if (dayInCycle < halfCommuteDays + restDays) {
-        return { type: 'rest-day', content: '休' };
-      }
-      if (dayInCycle < halfCommuteDays + restDays + halfCommuteDays) {
-        return { type: 'commute-day', content: '通' };
-      }
-      return { type: 'work-day', content: '班' };
-    } else {
-      // 如果不显示通勤日，则周期只包含休息日和工作日
-      if (dayInCycle < restDays) {
-        return { type: 'rest-day', content: '休' };
-      }
-      return { type: 'work-day', content: '班' };
-    }
-  };
-
-  /**
    * 自定义渲染日历单元格的内容。
    */
   const cellRender = (date: Dayjs): JSX.Element | null => {
-    const dayData = getDayData(date);
+    const dayData = getDayData(date, {
+      workDays,
+      restDays,
+      startDate,
+      showCommuteDays,
+      commuteDays,
+    });
     if (!dayData) return null;
 
     return <div className={`day-label ${dayData.type}`}>{dayData.content}</div>;
