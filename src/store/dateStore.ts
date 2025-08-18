@@ -1,18 +1,38 @@
 import { create } from 'zustand';
 import dayjs, { Dayjs } from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
+
+// 多周期模式下的单个周期对象接口
+export interface MultiCycle {
+  id: string;
+  name: string;
+  color: string;
+  workDays: number;
+  restDays: number;
+  startDate: Dayjs | null;
+}
 
 interface DateStore {
+  // --- 单周期模式状态 ---
   workDays: number;
   restDays: number;
   startDate: Dayjs | null;
   showCommuteDays: boolean;
   commuteDays: number;
-  theme: 'light' | 'dark';
   setWorkDays: (days: number) => void;
   setRestDays: (days: number) => void;
   setStartDate: (date: Dayjs | null) => void;
   setShowCommuteDays: (show: boolean) => void;
   setCommuteDays: (days: number) => void;
+
+  // --- 多周期模式状态 ---
+  multiCycles: MultiCycle[];
+  addMultiCycle: () => void;
+  removeMultiCycle: (id: string) => void;
+  updateMultiCycle: (id: string, newValues: Partial<MultiCycle>) => void;
+
+  // --- 全局共享状态 ---
+  theme: 'light' | 'dark';
   toggleTheme: () => void;
 }
 
@@ -28,31 +48,75 @@ const getInitialTheme = (): 'light' | 'dark' => {
   return 'light';
 };
 
+// 随机颜色列表，用于新周期的默认颜色
+const defaultColors = ['#FF4D4F', '#FAAD14', '#13C2C2', '#52C41A', '#2F54EB', '#722ED1'];
+
 // 使用 Zustand 创建全局状态存储
 export const useDateStore = create<DateStore>((set) => ({
-  workDays: 12, // 默认上班天数
-  restDays: 5, // 默认放假天数
-  startDate: dayjs('2025-08-03'), // 默认周期开始日期
-  showCommuteDays: false, // 默认是否显示通勤日
-  commuteDays: 2, // 默认通勤日天数
-  theme: getInitialTheme(), // 初始主题模式
+  // --- 单周期模式的默认值 ---
+  workDays: 12,
+  restDays: 5,
+  startDate: dayjs('2025-07-05'),
+  showCommuteDays: false,
+  commuteDays: 2,
 
-  // 设置上班天数
+  // --- 多周期模式的默认值 ---
+  multiCycles: [
+    {
+      id: uuidv4(),
+      name: '主业',
+      color: defaultColors[0],
+      workDays: 4,
+      restDays: 3,
+      startDate: dayjs().startOf('month'),
+    },
+    {
+      id: uuidv4(),
+      name: '副业',
+      color: defaultColors[1],
+      workDays: 3,
+      restDays: 4,
+      startDate: dayjs().startOf('month').add(4, 'days'), // 从上个周日开始
+    },
+  ],
+
+  // --- 全局共享状态 ---
+  theme: getInitialTheme(),
+
+  // --- 单周期模式的 Actions ---
   setWorkDays: (days) => set({ workDays: days }),
-
-  // 设置放假天数
   setRestDays: (days) => set({ restDays: days }),
-
-  // 设置周期开始日期
   setStartDate: (date) => set({ startDate: date }),
-
-  // 设置是否显示通勤日
   setShowCommuteDays: (show) => set({ showCommuteDays: show }),
-
-  // 设置通勤日天数
   setCommuteDays: (days) => set({ commuteDays: days }),
 
-  // 切换主题模式
+  // --- 多周期模式的 Actions ---
+  addMultiCycle: () =>
+    set((state) => ({
+      multiCycles: [
+        ...state.multiCycles,
+        {
+          id: uuidv4(),
+          name: '新周期',
+          color: defaultColors[state.multiCycles.length % defaultColors.length],
+          workDays: 1,
+          restDays: 1,
+          startDate: dayjs(),
+        },
+      ],
+    })),
+  removeMultiCycle: (id) =>
+    set((state) => ({
+      multiCycles: state.multiCycles.filter((cycle) => cycle.id !== id),
+    })),
+  updateMultiCycle: (id, newValues) =>
+    set((state) => ({
+      multiCycles: state.multiCycles.map((cycle) =>
+        cycle.id === id ? { ...cycle, ...newValues } : cycle,
+      ),
+    })),
+
+  // --- 全局共享 Actions ---
   toggleTheme: () =>
     set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
 }));

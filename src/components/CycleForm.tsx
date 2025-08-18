@@ -51,6 +51,55 @@ const CycleForm = (): JSX.Element => {
     setCommuteDays(values.showCommuteDays ? values.commuteDays : 0);
   };
 
+  const advancedOptions = [
+    {
+      key: '1',
+      label: '高级选项',
+      children: (
+        <Row gutter={16} align="bottom">
+          <Col xs={24} md={8}>
+            <Form.Item name="showCommuteDays" valuePropName="checked">
+              <Checkbox>是否显示通勤日</Checkbox>
+            </Form.Item>
+          </Col>
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) =>
+              prevValues.showCommuteDays !== currentValues.showCommuteDays
+            }
+          >
+            {({ getFieldValue }) =>
+              getFieldValue('showCommuteDays') ? (
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label="通勤日"
+                    name="commuteDays"
+                    rules={[
+                      { required: true, message: '请输入通勤日' },
+                      {
+                        type: 'number',
+                        validator: (_, value) => {
+                          if (value && value % 2 !== 0) {
+                            return Promise.reject(
+                              new Error('通勤日必须为偶数'),
+                            );
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                  >
+                    <InputNumber min={0} style={{ width: '100%' }} />
+                  </Form.Item>
+                </Col>
+              ) : null
+            }
+          </Form.Item>
+        </Row>
+      ),
+    },
+  ];
+
   return (
     <div className="form-container">
       <Form
@@ -105,50 +154,7 @@ const CycleForm = (): JSX.Element => {
             </Form.Item>
           </Col>
         </Row>
-        <Collapse ghost>
-          <Collapse.Panel header="高级选项" key="1">
-            <Row gutter={16} align="bottom">
-              <Col xs={24} md={8}>
-                <Form.Item name="showCommuteDays" valuePropName="checked">
-                  <Checkbox>是否显示通勤日</Checkbox>
-                </Form.Item>
-              </Col>
-              <Form.Item
-                noStyle
-                shouldUpdate={(prevValues, currentValues) =>
-                  prevValues.showCommuteDays !== currentValues.showCommuteDays
-                }
-              >
-                {({ getFieldValue }) =>
-                  getFieldValue('showCommuteDays') ? (
-                    <Col xs={24} md={8}>
-                      <Form.Item
-                        label="通勤日"
-                        name="commuteDays"
-                        rules={[
-                          { required: true, message: '请输入通勤日' },
-                          {
-                            type: 'number',
-                            validator: (_, value) => {
-                              if (value && value % 2 !== 0) {
-                                return Promise.reject(
-                                  new Error('通勤日必须为偶数'),
-                                );
-                              }
-                              return Promise.resolve();
-                            },
-                          },
-                        ]}
-                      >
-                        <InputNumber min={0} style={{ width: '100%' }} />
-                      </Form.Item>
-                    </Col>
-                  ) : null
-                }
-              </Form.Item>
-            </Row>
-          </Collapse.Panel>
-        </Collapse>
+        <Collapse items={advancedOptions} ghost />
       </Form>
     </div>
   );

@@ -38,24 +38,26 @@ export const getDayData = (
   }
 
   const dayInCycle = diff % totalDaysInCycle;
-  const halfCommuteDays = actualCommuteDays / 2;
 
+  // 修正后的逻辑：先工作，再休息
   if (showCommuteDays) {
-    if (dayInCycle < halfCommuteDays) {
+    const halfCommuteDays = actualCommuteDays / 2;
+    // 顺序: 工作日 -> 通勤 -> 休息日 -> 通勤
+    if (dayInCycle < workDays) {
+      return { type: 'work-day', content: '班' };
+    }
+    if (dayInCycle < workDays + halfCommuteDays) {
       return { type: 'commute-day', content: '通' };
     }
-    if (dayInCycle < halfCommuteDays + restDays) {
+    if (dayInCycle < workDays + halfCommuteDays + restDays) {
       return { type: 'rest-day', content: '休' };
     }
-    if (dayInCycle < halfCommuteDays + restDays + halfCommuteDays) {
-      return { type: 'commute-day', content: '通' };
-    }
-    return { type: 'work-day', content: '班' };
+    return { type: 'commute-day', content: '通' };
   } else {
-    // 如果不显示通勤日，则周期只包含休息日和工作日
-    if (dayInCycle < restDays) {
-      return { type: 'rest-day', content: '休' };
+    // 顺序: 工作日 -> 休息日
+    if (dayInCycle < workDays) {
+      return { type: 'work-day', content: '班' };
     }
-    return { type: 'work-day', content: '班' };
+    return { type: 'rest-day', content: '休' };
   }
 };
