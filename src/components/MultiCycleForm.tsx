@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import { useDateStore } from '../store/dateStore';
 import type { MultiCycle } from '../store/dateStore';
 import { Form, Input, InputNumber, DatePicker, Button, Collapse, Popconfirm, Space, Row, Col } from 'antd';
